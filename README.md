@@ -10,6 +10,20 @@ Here 'blocked' in the context of actively connected consumers means that Daphne 
 > daphne.ws_protocol DEBUG WebSocket closed for ['127.0.0.1', 50834]  
 > django.channels.server INFO WebSocket DISCONNECT /ws/chat/sync [127.0.0.1:50834]  
 
+This behavior appears to be consistent since at least the 3.0 release of Channels. I've personally tested and confirmed similar behavior in the following environments:
+- Latest
+    - Python 3.13.2
+    - Django 5.1.8
+    - Channels 4.2.2
+- 4.0
+    - Python 3.10.6
+    - Django 4.0
+    - Channels 4.0.0
+- 3.0
+    - Python 3.9.1
+    - Django 3.0
+    - Channels 3.0.0
+
 # Reproduction
 
 **Prerequisites**
