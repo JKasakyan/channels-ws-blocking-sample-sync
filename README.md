@@ -1,5 +1,5 @@
 # Description
-When a `SyncConsumer` performs a synchronous blocking action (sleep, infinite loop), all other actively connected `SyncConsumers` are blocked and subsequent connections from any `SyncConsumer` are also blocked until the blocking action is completed.
+When a `SyncConsumer` performs a synchronous blocking action (sleep, infinite loop), all other actively connected `SyncConsumers` are blocked and subsequent connections from any `SyncConsumer` are also blocked until the blocking action is completed. See https://github.com/django/channels/issues/2132
 
 Here 'blocked' in the context of actively connected consumers means that Daphne acknowledges incoming frames from the client but no client consumer code is triggered:
 > daphne.ws_protocol DEBUG WebSocket incoming frame on ['127.0.0.1', 50176]
