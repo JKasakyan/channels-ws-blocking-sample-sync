@@ -1,0 +1,3 @@
+
+channels[daphne]==4.2.2
+Django==5.1.8

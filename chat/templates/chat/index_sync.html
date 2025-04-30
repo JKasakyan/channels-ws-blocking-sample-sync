@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Django Channels Example</title>
+</head>
+<body>
+    <input id="messageInput" type="text">
+    <button id="sendMessageButton">Send</button>
+
+    <script>
+        const chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/sync'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log(data);
+        };
+
+        document.querySelector('#sendMessageButton').onclick = function(e) {
+            const messageInputDom = document.querySelector('#messageInput');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
+</body>
+</html>
