@@ -69,3 +69,13 @@ This behavior appears to be consistent since at least the 3.0 release of Channel
 > daphne.http_protocol DEBUG 2025-04-30 20:06:26,675 Upgraded connection ['127.0.0.1', 61284] to WebSocket  
 > daphne.ws_protocol DEBUG 2025-04-30 20:06:31,004 WebSocket closed for ['127.0.0.1', 61284]  
 > django.channels.server INFO 2025-04-30 20:06:31,005 WebSocket DISCONNECT /ws/chat/sync [127.0.0.1:61284]  
+
+**Expected behavior**
+Per the [Channels documentation](https://channels.readthedocs.io/en/latest/topics/consumers.html#basic-layout), every `SyncConsumer` should be running in its own thread so that any synchronous blocking action only blocks that thread:
+> If you’re calling any part of Django’s ORM or other synchronous code, you should use a SyncConsumer, as this will run the whole consumer in a thread and stop your ORM queries blocking the entire server.
+
+Given this, I would expect that while the `ChatSyncConsumer` from the 1st tab is blocking:
+- Any messages over the 1st tab's `ChatSyncConsumer` connection will hang until the blocking logic completes
+- The 2nd tab's `ChatSyncConsumer` connection should remain responsive and respond immediately to any messages sent over that connection
+- Any additional attempted `ChatSyncConsumer` connections while the 1st tab is blocking should be successful and messages should be able to be
+sent and received over those new connections
